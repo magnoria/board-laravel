@@ -35,7 +35,7 @@ class PostController extends Controller
 
     return response()->json($post);
 }
-//수정
+//수정 //이부분 수정할것 2026-03-30
     public function update(Request $request, $id){
         $post = Post::findOrFail($id);
 
