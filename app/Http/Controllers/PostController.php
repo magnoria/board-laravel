@@ -37,7 +37,16 @@ class PostController extends Controller
 }
 //수정 //이부분 수정할것 2026-03-30
     public function update(Request $request, $id){
+        $user = JWTAuth::parseToken()->authenticate();
+
         $post = Post::findOrFail($id);
+
+        //id 확인 추가 04-01
+        if($post->user_id !== $user->id){
+            return response()->json([
+                'message' => '권한없음'
+            ], 403);
+        }
 
         $post->update([
             'title' => $request->title,
@@ -48,7 +57,15 @@ class PostController extends Controller
 //삭제
 public function destroy($id)
 {
+    $user = JWTAuth::parseToken()->authenticate();
     $post = Post::findOrFail($id);
+
+      //id 확인 추가 04-01
+        if($post->user_id !== $user->id){
+            return response()->json([
+                'message' => '권한없음'
+            ], 403);
+        }
 
     $post->delete();
 
